@@ -7,8 +7,8 @@
 :root {
     --ink: #1c1917;
     --paper: #faf6f0;
-    --accent: #d95d39;
-    --accent-dark: #a8442a;
+    --accent: #e8703f;
+    --accent-dark: #7a2e1d;
     --accent-glow: #f2934f;
     --line: #e3d9c9;
     --text-muted: #6b6459;
@@ -33,7 +33,6 @@ h1, .brand {
     max-width: 960px;
     margin: 0 auto;
     padding: 0 1.5rem;
-    height: 100%;
 }
 
 .site-header {
@@ -76,7 +75,6 @@ h1, .brand {
         "identity photo"
         "details  photo";
     gap: 1.5rem 3rem;
-    margin-bottom: 10rem;
 }
 
 .hero-identity {
@@ -176,6 +174,7 @@ h1, .brand {
 }
 
 .site-footer {
+    
     padding: 1.5rem;
     color: var(--text-muted);
     font-size: 0.85rem;
@@ -183,17 +182,10 @@ h1, .brand {
 }
 
 .section-title {
-    display: flex;
-    justify-content: center;
-    font-size: 4rem;
+    color: var(--accent-glow);
+    font-size: 2rem;
     font-weight: 700;
     margin-bottom: 1.5rem;
-
-    background: linear-gradient(0deg, #f2934f 0%, #e8703f 30%, #ffffff 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
 }
 
 /* SKILLS */
@@ -202,10 +194,8 @@ h1, .brand {
     background: radial-gradient(
         circle at 50% 30%,
         var(--accent-dark) 0%,
-        #5c2114 60%
+        #5c2114 75%
     );
-    height: 1000px;
-    padding: 4.5rem 1rem 5rem;
 }
 
 .skill-list {
@@ -233,7 +223,7 @@ h1, .brand {
   padding: 40px 0;
   scrollbar-width: none;
 
-  /* Added edge fade effect using linear gradient mask
+  /* Added edge fade effect using linear gradient mask */
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 20%,
@@ -247,7 +237,7 @@ h1, .brand {
     black 10%,
     black 90%,
     transparent 100%
-  ); */
+  );
 }
 
 .carousel-container::-webkit-scrollbar {
@@ -263,7 +253,7 @@ h1, .brand {
 .carousel-item {
   flex: 0 0 var(--item-width);
   height: 400px;
-  background: #FCFAE5;
+  background: var(--paper);
   color: white;
   font-size: 2rem;
   display: flex;
@@ -272,7 +262,8 @@ h1, .brand {
   border-radius: 12px;
   scroll-snap-align: center;
   transition: transform 0.3s ease, opacity 0.3s ease;
-  
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+
   /* Scroll-driven scaling */
   view-timeline-name: --item-timeline;
   view-timeline-axis: inline;
