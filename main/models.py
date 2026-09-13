@@ -32,6 +32,9 @@ class Experience(models.Model):
     def is_ongoing(self):
         return self.ended_at is None
 
+    def logo_url(self):
+        return f"/static/img/experience/{self.title.lower().replace(' ', '_')}.svg"
+
 class Skill(models.Model): 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
@@ -41,7 +44,7 @@ class Skill(models.Model):
             return self.name
         
     def logo_url(self):
-        return f"/static/img/{self.name.lower()}.svg"
+        return f"/static/img/skills/{self.name.lower()}.svg"
 
 
 # Here is what each part does:
