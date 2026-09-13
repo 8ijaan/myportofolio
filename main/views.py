@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from main.models import Experience
+from main.models import Experience, Skill
 
 
 def show_main(request):
@@ -12,6 +12,7 @@ def show_main(request):
             "A Computer Science student at Universitas Indonesia interested "
             "in software development and education."
         ),
+        "skill_list": Skill.objects.all(),
     }
     return render(request, "index.html", context)
 

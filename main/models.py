@@ -32,6 +32,16 @@ class Experience(models.Model):
     def is_ongoing(self):
         return self.ended_at is None
 
+class Skill(models.Model): 
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255)
+    description = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+            return self.name
+        
+    def logo_url(self):
+        return f"/static/img/{self.name.lower()}.svg"
 
 
 # Here is what each part does:
@@ -47,3 +57,4 @@ class Experience(models.Model):
 # ended_at may be left empty for an ongoing experience.
 # __str__() gives each object a readable string representation.
 # is_ongoing returns True when ended_at is empty.
+

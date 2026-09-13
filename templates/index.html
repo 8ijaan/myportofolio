@@ -72,62 +72,17 @@
           <h2 class="section-title">MY SKILLS</h2>
 
           <ul class="skill-list carousel-container">
+            {% for skill in skill_list %}
             <li class="skill carousel-item">
               <img
-                src="/static/img/css.svg"
-                alt="CSS Logo"
+                src= {{skill.logo_url}}
+                alt= {{skill.name}}
                 class="skill-logo"
               />
             </li>
-            <li class="skill carousel-item">
-              <img
-                src="/static/img/python.svg"
-                alt="Python Logo"
-                class="skill-logo"
-              />
-            </li>
-            <li class="skill carousel-item">
-              <img
-                src="/static/img/java.svg"
-                alt="Java Logo"
-                class="skill-logo"
-              />
-            </li>
-            <li class="skill carousel-item">
-              <img
-                src="/static/img/react.svg"
-                alt="React Logo"
-                class="skill-logo"
-              />
-            </li>
-            <li class="skill carousel-item">
-              <img
-                src="/static/img/js.svg"
-                alt="JavaScript Logo"
-                class="skill-logo"
-              />
-            </li>
-            <li class="skill carousel-item">
-              <img
-                src="/static/img/html.svg"
-                alt="HTML Logo"
-                class="skill-logo"
-              />
-            </li>
-            <li class="skill carousel-item">
-              <img
-                src="/static/img/css.svg"
-                alt="CSS Logo"
-                class="skill-logo"
-              />
-            </li>
-            <li class="skill carousel-item">
-              <img
-                src="/static/img/python.svg"
-                alt="Python Logo"
-                class="skill-logo"
-              />
-            </li>
+            {% empty %}
+              <p>No skills available.</p>
+            {% endfor %}
           </ul>
         </div>
       </section>
@@ -142,3 +97,4 @@
     </footer>
   </body>
 </html>
+
