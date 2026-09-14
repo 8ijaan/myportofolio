@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
-from main.models import Experience
+from main.models import Experience, Skill, Project
 
 
 class MainTest(TestCase):
@@ -11,6 +11,14 @@ class MainTest(TestCase):
             title="PBP Teaching Assistant",
             description="Help students understand web development.",
             category="part-time",
+        )
+        self.skill = Skill.objects.create(
+            name="Python",
+            description="Snake",
+        )
+        self.project = Project.objects.create(
+            name="My Project",
+            description="A simple project.",
         )
 
     def test_main_url_is_accessible(self):
@@ -56,3 +64,26 @@ class MainTest(TestCase):
         self.assertFalse(self.experience.is_ongoing)
         self.assertContains(response, "Completed")
         self.assertNotContains(response, "Ongoing")
+
+    def test_project_page(self):
+        response = self.client.get(reverse("main:show_project"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "project.html")
+        self.assertContains(response, self.project.name)
+        self.assertContains(response, self.project.description)
+        self.assertContains(response, f'href="{reverse("main:show_main")}"')
+
+    def test_empty_project_page(self):
+        Project.objects.all().delete()
+        response = self.client.get(reverse("main:show_project"))
+
+        self.assertContains(response, "No project has been added yet.")
+
+    def test_skill_page(self):
+        response = self.client.get(reverse("main:show_main"))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "index.html")
+        self.assertContains(response, self.skill.name)
+        self.assertContains(response, f'href="{reverse("main:show_main")}"')
