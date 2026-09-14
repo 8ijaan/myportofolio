@@ -5,23 +5,27 @@
 }
 
 :root {
-    --ink: #1c1917;
-    --paper: #faf6f0;
-    --accent: #d95d39;
-    --accent-dark: #a8442a;
-    --accent-glow: #f2934f;
-    --line: #e3d9c9;
+    --background: #000000;
+    --background-light: #2C2C2E;
+    --purple-accent: #A78BFA;
+    --purple-accent-dark: #7C5CF0;
+    --line: #3A3A3C;
     --text-muted: #6b6459;
+    --text: #FFFFFF;
+
     --radius: 4px;
     --carousel-depth: 173px;
     --item-width: 33%; /* 3 items visible (~30% each + gaps) */
     --gap: 20px;
+
+    
+    
 }
 
 body {
     font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: var(--ink);
-    background-color: var(--paper);
+    color: var(--text);
+    background-color: var(--background);
     line-height: 1.6;
     padding-top: 70px;
 }
@@ -42,7 +46,7 @@ h1, .brand {
   left: 0;
   width: 100%;
   height: 70px;
-  background-color: var(--paper);
+  background-color: var(--background);
   z-index: 1000;
   border-bottom: 1px solid var(--line);
 }
@@ -57,19 +61,26 @@ h1, .brand {
 .brand {
     font-size: 1.3rem;
     font-weight: 700;
-    color: var(--ink);
+    color: var(--accent-dark);
     text-decoration: none;
 }
 
 .site-header nav {
     display: flex;
     gap: 2rem;
+    transition: background-color 0.2s ease;
 }
 
 .site-header nav a {
-    color: var(--ink);
+    color: var(--text);
     text-decoration: none;
     font-size: 0.95rem;
+    transition: color 0.2s ease;
+}
+
+.site-header nav a:hover {
+    color: var(--purple-accent-dark);
+    animation: color-change 0.3s ease;
 }
 
 .hero {
@@ -106,6 +117,10 @@ h1, .brand {
 .hero-identity h1 {
     font-size: clamp(3rem, 7vw, 5rem);
     line-height: 0.95;
+    background: linear-gradient(0deg, var(--purple-accent) 0%, var(--purple-accent-dark) 30%, #ffffff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .bio {
@@ -143,15 +158,15 @@ h1, .brand {
     font-size: 0.85rem;
     font-weight: 600;
     text-decoration: none;
-    color: var(--paper);
-    background-color: var(--ink);
+    color: var(--text);
+    background-color: var(--purple-accent);
     border-radius: var(--radius);
     padding: 0.5rem 1.1rem;
     transition: background-color 0.2s ease;
 }
 
 .social-link:hover {
-    background-color: var(--accent);
+    background-color: var(--purple-accent-dark);
 }
 
 .hero-photo {
@@ -162,13 +177,14 @@ h1, .brand {
 
 .photo-block {
     position: absolute;
-    top: 1.25rem;
-    left: 1.25rem;
+    top: 1.1rem;
+    left: 1.1rem;
     width: 100%;
     height: 100%;
-    background-color: var(--accent);
+    background-color: var(--purple-accent-dark);
     border-radius: var(--radius);
     z-index: 0;
+    opacity: 0.6;
 }
 
 .avatar {
@@ -179,7 +195,8 @@ h1, .brand {
     aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: var(--radius);
-    border: 3px solid var(--ink);
+    border: 3px solid var(--purple-accent-dark);
+    opacity: 1;
 }
 
 .site-footer {
@@ -196,7 +213,7 @@ h1, .brand {
     font-weight: 700;
     margin-bottom: 1.5rem;
 
-    background: linear-gradient(0deg, #f2934f 0%, #e8703f 30%, #ffffff 100%);
+    background: linear-gradient(0deg, var(--purple-accent) 0%, var(--purple-accent-dark) 30%, #ffffff 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -223,11 +240,16 @@ h1, .brand {
 
 .skill {
     list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
 
 .skill-logo {
     width: 40%;
     height: auto;
+    margin-bottom: 1rem;
 }
 
 /* CAROUSEL SKILLS */
@@ -239,22 +261,6 @@ h1, .brand {
   scroll-snap-type: x mandatory;
   padding: 40px 0;
   scrollbar-width: none;
-
-  /* Added edge fade effect using linear gradient mask
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 20%,
-    black 10%,
-    black 90%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 10%,
-    black 90%,
-    transparent 100%
-  ); */
 }
 
 .carousel-container::-webkit-scrollbar {
@@ -269,10 +275,9 @@ h1, .brand {
 
 .carousel-item {
   flex: 0 0 var(--item-width);
-  height: 400px;
-  background: #FCFAE5;
-  color: white;
-  font-size: 2rem;
+  height: min(400px, 50vh);
+  background: var(--background-light);
+  font-size: 1.25rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -287,10 +292,17 @@ h1, .brand {
   animation-timeline: --item-timeline;
 }
 
+.carousel-item h2 {
+    background: linear-gradient(0deg, #ffffff 0%, var(--purple-accent-dark) 30%, var(--purple-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
 @keyframes center-scale {
   0% {
     transform: scale(0.85);
-    opacity: 0.3;
+    opacity: 0.05;
   }
   50% {
     transform: scale(1.15);
@@ -298,7 +310,7 @@ h1, .brand {
   }
   100% {
     transform: scale(0.85);
-    opacity: 0.3;
+    opacity: 0.05;
   }
 }
 
@@ -309,7 +321,7 @@ h1, .brand {
 }
 
 .section-kicker {
-    color: var(--accent-dark);
+    color: var(--text);
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -319,6 +331,10 @@ h1, .brand {
 .experience-section h1 {
     margin: 0.4rem 0 1.5rem;
     font-size: 2rem;
+    background: linear-gradient(0deg, #ffffff 0%, var(--purple-accent-dark) 30%, var(--purple-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .experience-grid {
@@ -329,13 +345,13 @@ h1, .brand {
 
 .experience-card {
     padding: 1.25rem;
-    background-color: #fff;
+    background-color: var(--purple-accent-dark);
     border: 1px solid var(--line);
     border-radius: var(--radius);
 }
 
 .experience-category {
-    color: var(--accent-dark);
+    color: black;
     font-size: 0.75rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -344,17 +360,19 @@ h1, .brand {
 .experience-card h2 {
     margin: 0.5rem 0;
     font-size: 1.25rem;
+    color: var(--text);
 }
 
 .experience-description,
 .empty-state {
-    color: var(--text-muted);
+    color: var(--text);
 }
 
 .experience-status {
     margin-top: 1rem;
     font-size: 0.85rem;
     font-weight: 600;
+    color: var(--text)
 }
 
 /* PROJECTS */
@@ -364,7 +382,6 @@ h1, .brand {
 }
 
 .section-kicker {
-    color: var(--accent-dark);
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.08em;
@@ -374,6 +391,10 @@ h1, .brand {
 .project-section h1 {
     margin: 0.4rem 0 1.5rem;
     font-size: 2rem;
+
+    background: linear-gradient(0deg, #ffffff 0%, var(--purple-accent-dark) 30%, var(--purple-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .project-grid {
@@ -384,7 +405,7 @@ h1, .brand {
 
 .project-card {
     padding: 1.25rem;
-    background-color: #fff;
+    background-color: var(--purple-accent-dark);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     display: flex;
@@ -392,6 +413,7 @@ h1, .brand {
     justify-content: space-between;
     overflow: hidden;
 }
+
 
 .project-image {
   width: 200px;     
@@ -402,15 +424,14 @@ h1, .brand {
 }
 
 .project-detail {
-    flex: 1;            /* takes up remaining space */
-    padding-left: 1rem; /* space between image and text */
+    flex: 1;
+    padding-left: 1rem;
 }
 
-.project-category {
-    color: var(--accent-dark);
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
+.project-detail h2 {
+    margin: 0.5rem 0;
+    font-size: 1.25rem;
+    color: var(--text);
 }
 
 .project-card h2 {
@@ -418,9 +439,14 @@ h1, .brand {
     font-size: 1.25rem;
 }
 
+.project-card h1 {
+    margin: 0.5rem 0;
+    font-size: 1.25rem;
+}
+
 .project-description,
 .empty-state {
-    color: var(--text-muted);
+    color: var(--text);
 }
 
 .project-status {
