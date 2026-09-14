@@ -46,6 +46,18 @@ class Skill(models.Model):
     def logo_url(self):
         return f"/static/img/skills/{self.name.lower()}.svg"
 
+class Project(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    thumbnail = models.URLField(blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    def logo_url(self):
+        return f"/static/img/projects/{self.name.lower().replace(' ', '_')}.svg"
+
 
 # Here is what each part does:
 
