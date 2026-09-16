@@ -48,15 +48,14 @@ class Skill(models.Model):
 
 class Project(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    name = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
     description = models.TextField()
-    thumbnail = models.URLField(blank=True, null=True)
+    tech_stack = models.CharField(max_length=255)
+    project_url = models.URLField(blank=True)
+    project_image_url = models.URLField(blank=True, max_length=500)
 
     def __str__(self):
-        return self.name
-
-    def logo_url(self):
-        return f"/static/img/projects/{self.name.lower().replace(' ', '_')}.svg"
+        return self.title
 
 
 # Here is what each part does:

@@ -13,5 +13,5 @@ class ExperienceAdmin(admin.ModelAdmin):
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ("name", "description", "id")
+    list_display = ("title", "description", "id")
     search_fields = ("name", "description")

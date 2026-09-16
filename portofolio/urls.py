@@ -17,7 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from main.views import get_projects_json
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("main.urls")),
+    path("api/projects/", get_projects_json, name="get_projects_json"),
 ]
