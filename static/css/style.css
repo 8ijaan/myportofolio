@@ -710,7 +710,7 @@ h1, .brand {
     z-index: 1;
     width: min(100%, 480px);
     padding: 1.5rem;
-    background: var(--paper);
+    background: var(--purple-accent-dark);
     border: 1px solid var(--line);
     border-radius: var(--radius);
     box-shadow: 0 1rem 3rem rgba(28, 25, 23, 0.22);

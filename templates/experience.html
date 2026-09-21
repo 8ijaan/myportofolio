@@ -8,17 +8,20 @@
     <div class="container">
       <p class="section-kicker">My journey so far</p>
       <div class="project-header">
-        <h1>Projects</h1>
-        <a
-          href="{% url 'main:create_experience' %}"
-          class="button experience-add-button"
-        >
+        <h1>Experience</h1>
+        <a href="{% url 'main:create_experience' %}" class="button experience-add-button">
           <span aria-hidden="true">+</span>
           Tambah Pengalaman
         </a>
       </div>
 
-      <div class="experience-grid">
+      <form method="get" action="{% url 'main:show_experiences' %}" class="project-search">
+        <input type="search" name="title" value="{{ title_query }}" placeholder="Cari berdasarkan nama pengalaman"
+          class="project-search__input" aria-label="Cari berdasarkan nama pengalaman" />
+        <button type="submit" class="button">Cari</button>
+      </form>
+
+      <div class="experience-grid project-grid">
         {% for experience in experience_list %}
         <article class="experience-card">
           <span class="experience-category">
@@ -27,11 +30,19 @@
           <h2>{{ experience.title }}</h2>
           <p class="experience-description">{{ experience.description }}</p>
 
-          {% if experience.is_ongoing %}
-          <p class="experience-status">Ongoing</p>
-          {% else %}
-          <p class="experience-status">Completed</p>
-          {% endif %}
+          <div class="project-card-actions">
+            {% if experience.is_ongoing %}
+            <p class="experience-status">Ongoing</p>
+            {% else %}
+            <p class="experience-status">Completed</p>
+            {% endif %}
+            <div class="project-actions">
+              {% if experience.experience_url %}
+              <a href="{{ experience.experience_url }}" class="button">Lihat Experience</a>
+              {% endif %} 
+              {% include "components/experience_delete_modal.html" with experience=experience %}
+            </div>
+          </div>
         </article>
         {% empty %}
         <p class="empty-state">No experience has been added yet.</p>
