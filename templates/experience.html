@@ -45,7 +45,11 @@
           </div>
         </article>
         {% empty %}
-        <p class="empty-state">No experience has been added yet.</p>
+        {% if title_query %}
+        <p class="empty-state">Tidak ada pengalaman dengan nama tersebut.</p>
+        {% else %}
+        <p class="empty-state">Belum ada pengalaman yang ditambahkan.</p>
+        {% endif %}
         {% endfor %}
       </div>
     </div>
