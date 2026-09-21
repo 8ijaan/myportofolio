@@ -120,6 +120,19 @@ class Skill(models.Model):
 
 makemigrations memindai perubahan tersebut dan menerjemahkannya menjadi blueprint agar migrate bisa mengeksekusinya ke database saya. Sekarang saya bisa menyimpan URL gambar ke dalam database saya.
 
+### TUGAS 3: REFLEKSI
+1. Explain why we use Django’s ModelForm instead of creating HTML forms manually. Additionally, explain why we are required to add {% csrf_token %} to these forms!
+
+Kita menggunakan Django's ModelForm daripada membuat form HTML secara manual karena hal ini membuat kode jauh lebih bersih dan efisien, serta secara otomatis menghubungkan field form dengan model database kita tanpa harus menulis ulang validasi satu per satu. Pilihan ini saja sudah memberikan banyak manfaat untuk pengembangan ke depannya, seperti meminimalisir potensi error dan menghemat waktu penulisan kode. Selain itu, kita wajib menambahkan {% csrf_token %} ke dalam form tersebut untuk melindungi aplikasi dari serangan Cross-Site Request Forgery (CSRF), di mana token unik ini memastikan bahwa request POST yang dikirim benar-benar berasal dari pengguna yang sah di dalam situs kita, bukan dari pihak luar yang berbahaya
+
+2. In Tutorial 03, we discussed JSON and XML data formats. Why is JSON preferred in modern web application development compared to XML?
+
+JSON lebih disukai dalam pengembangan aplikasi web modern dibandingkan XML karena strukturnya yang jauh lebih ringan, ringkas, dan sangat mudah dibaca oleh manusia maupun diproses oleh komputer. Pilihan ini saja sudah memberikan banyak manfaat untuk performa jaringan karena ukuran file JSON yang lebih kecil membuat proses transfer data dari server ke klien menjadi lebih cepat. Selain itu, JSON terintegrasi secara langsung dengan JavaScript, sehingga data dapat langsung digunakan tanpa memerlukan parser tambahan yang rumit seperti pada XML.
+
+3. Explain the flow that occurs when you use a view function to return your portfolio data in JSON format. Why do we need to perform the serialization process on Django models before returning the data?
+
+Alur yang terjadi ketika kita menggunakan fungsi view untuk mengembalikan data portofolio dalam format JSON dimulai saat klien mengirimkan request ke URL tertentu, kemudian view fungsi akan mengambil data dari model database, mengubahnya melalui proses serialization menjadi format teks yang kompatibel (seperti JSON), lalu mengembalikannya sebagai HttpResponse. Kita perlu melakukan proses serialisasi terlebih dahulu pada model Django karena objek model Django merupakan objek kompleks berbasis Python yang tidak bisa langsung dibaca atau dikirim melalui protokol HTTP dalam bentuk teks mentah. Pilihan ini saja sudah memberikan banyak manfaat untuk memastikan data dari database dapat diterjemahkan dengan sempurna ke format standar yang dapat dipahami oleh berbagai platform atau frontend.
+
 ### AI DISCLOSURE
 Tools AI yang digunakan: Gemini, Claude.
 
@@ -128,5 +141,8 @@ Bagaimana saya menggunakan AI:
 - Mencari tutorial untuk beberapa fitur css seperti layout, animasi, gradasi, dll (coding masih tetap saya lakukan secara manual)
 - Mencari cara menata README.md dengan baik
 - Menanyakan commit messages yang appropriate terhadap apa yang saya ubah/tambahkan pada code.
+- Mencari akar permasalahan apabila terjadi error.
+- Mempelajari flow dari Form & Data Delivery dalam Django
+
 
 Catatan Tambahan: Saya tidak menggunakan AI untuk mengubah codebase secara langsung. Semua perubahan pada codebase dilakukan secara manual oleh saya sendiri.
