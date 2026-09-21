@@ -144,5 +144,6 @@ Bagaimana saya menggunakan AI:
 - Mencari akar permasalahan apabila terjadi error.
 - Mempelajari flow dari Form & Data Delivery dalam Django
 
+Saya menyadari bahwa AI (dalam kasus ini Gemini) memiliki konteks yang terbatas dan tidak memiliki pemahaman secara menyeluruh terhadap codebase saya. Sehingga seringkali saya crosscheck terhadap perbedaan code saya dengan code yang diberikan Gemini, e.g. perbedaan nama class atau nama field, dll
 
 Catatan Tambahan: Saya tidak menggunakan AI untuk mengubah codebase secara langsung. Semua perubahan pada codebase dilakukan secara manual oleh saya sendiri.
