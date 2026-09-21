@@ -39,8 +39,11 @@
             <div class="project-actions">
               {% if experience.experience_url %}
               <a href="{{ experience.experience_url }}" class="button">Lihat Experience</a>
-              {% endif %} 
+              {% endif %}
               {% include "components/experience_delete_modal.html" with experience=experience %}
+              <a href="{% url 'main:update_experience' experience.id %}" class="button experience-add-button">
+                Edit
+              </a>
             </div>
           </div>
         </article>

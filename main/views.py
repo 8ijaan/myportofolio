@@ -62,6 +62,22 @@ def delete_experience(request, experience_id):
 
     return redirect("main:show_experiences")
 
+def update_experience(request, experience_id):
+    experience = get_object_or_404(Experience, pk=experience_id)
+    form = ExperienceForm(request.POST or None, instance=experience)
+
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Experience berhasil diperbarui!")
+        return redirect("main:show_experiences")
+
+    context = {
+        "name": "Ihsan",
+        "form": form,
+        "experience": experience,
+    }
+    return render(request, "experiences_form.html", context)
+
 def get_experiences_json(request):
     title_query = request.GET.get("title", "").strip()
     experiences = Experience.objects.all()
@@ -112,6 +128,22 @@ def delete_project(request, project_id):
         return redirect("main:show_projects")
 
     return redirect("main:show_projects")
+
+def update_project(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+    form = ProjectForm(request.POST or None, instance=project)
+
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Project berhasil diperbarui!")
+        return redirect("main:show_projects")
+
+    context = {
+        "name": "Ihsan",
+        "form": form,
+        "project": project,
+    }
+    return render(request, "projects_form.html", context)
 
 def get_projects_json(request):
     title_query = request.GET.get("title", "").strip()
