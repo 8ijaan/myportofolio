@@ -231,9 +231,9 @@ h1, .brand {
 
 .skills-container {
     background: radial-gradient(
-        circle at 50% 30%,
-        var(--accent-dark) 0%,
-        #5c2114 60%
+        circle at 50% 50%,
+        var(--purple-accent-dark) 0%,
+        #000000 60%
     );
     height: 1000px;
     padding: 4.5rem 1rem 5rem;
