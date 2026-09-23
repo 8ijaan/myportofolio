@@ -13,31 +13,27 @@
       </div>
       <div class="hero-photo">
         <div class="photo-block"></div>
-        <img
-          class="avatar"
-          src="/static/img/profile/meui.jpeg"
-          alt="Photo of {{name}}"
-        />
+        <img class="avatar" src="/static/img/profile/meui.jpeg" alt="Photo of {{name}}" />
       </div>
       <div class="hero-details">
         <p class="bio">C{{bio}}</p>
         <dl class="meta-list">
           <div class="meta-row">
             <dt>NPM</dt>
-            <dd>{{npm}}</dd>
+            <dd>{{ npm }}</dd>
           </div>
           <div class="meta-row">
             <dt>Program</dt>
-            <dd>{{study_program}}</dd>
+            <dd>{{ study_program }}</dd>
+          </div>
+          <div class="meta-row">
+            <dt>Last Login Session</dt>
+            <dd>{{ last_login }}</dd>
           </div>
         </dl>
         <div class="social-links">
           <a href="https://github.com/8ijaan" class="social-link">GitHub</a>
-          <a
-            href="https://www.linkedin.com/in/ihsan-rafi-1abb5a29b/"
-            class="social-link"
-            >LinkedIn</a
-          >
+          <a href="https://www.linkedin.com/in/ihsan-rafi-1abb5a29b/" class="social-link">LinkedIn</a>
           <a href="mailto:ihsanrfi05@gmail.com" class="social-link">Email</a>
         </div>
       </div>
@@ -51,11 +47,7 @@
       <ul class="skill-list carousel-container">
         {% for skill in skill_list %}
         <li class="skill carousel-item">
-          <img
-            src="{{skill.logo_url}}"
-            alt="{{skill.name}}"
-            class="skill-logo"
-          />
+          <img src="{{skill.logo_url}}" alt="{{skill.name}}" class="skill-logo" />
           <h2 class="skill-name">{{skill.name.upper}}</h2>
         </li>
         {% empty %}
