@@ -87,3 +87,31 @@ class MainTest(TestCase):
         self.assertTemplateUsed(response, "index.html")
         self.assertContains(response, self.skill.name)
         self.assertContains(response, f'href="{reverse("main:show_main")}"')
+
+    def test_experience_star(self):
+        user = self.client.post(
+            reverse("main:register"),
+            {"username": "star-user", "password1": "StrongPassword123!", "password2": "StrongPassword123!"},
+        )
+        self.client.login(username="star-user", password="StrongPassword123!")
+
+        response = self.client.post(
+            reverse("main:toggle_experience_star", args=[self.experience.id])
+        )
+
+        self.assertRedirects(response, reverse("main:show_experiences"))
+        self.assertTrue(self.experience.starred_by.filter(username="star-user").exists())
+
+    def test_project_star(self):
+            user = self.client.post(
+                reverse("main:register"),
+                {"username": "star-user", "password1": "StrongPassword123!", "password2": "StrongPassword123!"},
+            )
+            self.client.login(username="star-user", password="StrongPassword123!")
+    
+            response = self.client.post(
+                reverse("main:toggle_project_star", args=[self.experience.id])
+            )
+    
+            self.assertRedirects(response, reverse("main:show_experiences"))
+            self.assertTrue(self.project.starred_by.filter(username="star-user").exists())

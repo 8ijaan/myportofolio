@@ -65,9 +65,14 @@ def delete_experience(request, experience_id):
 
     return redirect("main:show_experiences")
 
+@login_required(login_url='/login/')
 def update_experience(request, experience_id):
     experience = get_object_or_404(Experience, pk=experience_id)
     form = ExperienceForm(request.POST or None, instance=experience)
+
+    if not request.user.has_perm('change_experience'):
+        raise PermissionDenied
+
 
     if request.method == "POST" and form.is_valid():
         form.save()
@@ -139,7 +144,7 @@ def delete_project(request, project_id):
 
     return redirect("main:show_projects")
 
-@login_required
+@login_required(login_url='/login/')
 def update_project(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
     form = ProjectForm(request.POST or None, instance=project)
@@ -207,7 +212,7 @@ def logout_user(request):
 
 # No is_superuser check: any logged-in account may give a star
 @login_required(login_url="/login/")
-def toggle_star(request, project_id):
+def toggle_project_star(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
 
     if request.method == "POST":
@@ -219,4 +224,17 @@ def toggle_star(request, project_id):
             project.starred_by.add(request.user)
 
     return redirect("main:show_projects")
+
+
+@login_required(login_url="/login/")
+def toggle_experience_star(request, experience_id):
+    experience = get_object_or_404(Experience, pk=experience_id)
+
+    if request.method == "POST":
+        if request.user in experience.starred_by.all():
+            experience.starred_by.remove(request.user)
+        else:
+            experience.starred_by.add(request.user)
+
+    return redirect("main:show_experiences")
 
