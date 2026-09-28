@@ -41,8 +41,11 @@ def show_experiences(request):
     }
     return render(request, "experience.html", context)
 
+@login_required(login_url='/login/')
 def create_experience(request):
     form = ExperienceForm(request.POST or None)
+    if not request.user.has_perm('create_experience'):
+        raise PermissionDenied
 
     if request.method == "POST" and form.is_valid():
         form.save()
@@ -55,8 +58,12 @@ def create_experience(request):
     }
     return render(request, "experiences_form.html", context)
 
+@login_required(login_url='/login/')
 def delete_experience(request, experience_id):
     experience = get_object_or_404(Experience, pk=experience_id)
+
+    if not request.user.has_perm('delete_experience'):
+        raise PermissionDenied
 
     if request.method == "POST":
         experience.delete()
@@ -131,9 +138,10 @@ def create_project(request):
     }
     return render(request, "projects_form.html", context)
 
+@login_required(login_url='/login/')
 def delete_project(request, project_id):
-    if not request.user.is_superuser:
-        raise PermissionDenied
+    if not request.user.has_perm('delete_project'):
+            raise PermissionDenied
     
     project = get_object_or_404(Project, pk=project_id)
 
@@ -149,8 +157,8 @@ def update_project(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
     form = ProjectForm(request.POST or None, instance=project)
 
-    if not (request.user.groups.filter(name='Editor').exists() or not request.user.is_superuser):
-        raise PermissionDenied
+    if not request.user.has_perm('update_project'):
+            raise PermissionDenied
 
     if request.method == "POST" and form.is_valid():
         form.save()
