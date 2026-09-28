@@ -40,7 +40,7 @@
                             {% if user.is_superuser %}
                             {% include "components/project_delete_modal.html" with project=project %}
                             <a href="{% url 'main:update_project' project.id %}" class="button project-add-button">
-                                Edit Nigga
+                                Edit
                             </a>
                             {% endif %}
                             {% if user.groups.first.name == 'Editor' %}

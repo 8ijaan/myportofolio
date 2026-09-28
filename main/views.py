@@ -139,9 +139,13 @@ def delete_project(request, project_id):
 
     return redirect("main:show_projects")
 
+@login_required
 def update_project(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
     form = ProjectForm(request.POST or None, instance=project)
+
+    if not (request.user.groups.filter(name='Editor').exists() or not request.user.is_superuser):
+        raise PermissionDenied
 
     if request.method == "POST" and form.is_valid():
         form.save()
