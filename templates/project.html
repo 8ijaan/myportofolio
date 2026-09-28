@@ -9,7 +9,7 @@
             <p class="section-kicker">Karya yang saya bangun</p>
             <div class="project-header">
                 <h1>Projects</h1>
-                {% if user.is_superuser %}
+                {% if perms.main.add_project %}
                 <a href="{% url 'main:create_project' %}" class="button project-add-button">
                     <span aria-hidden="true">+</span>
                     Tambah Proyek
