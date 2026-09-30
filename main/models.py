@@ -36,6 +36,7 @@ class Experience(models.Model):
     def is_ongoing(self):
         return self.ended_at is None
 
+    # TODO REFACTOR
     def logo_url(self):
         return f"/static/img/experience/{self.title.lower().replace(' ', '_')}.svg"
 
