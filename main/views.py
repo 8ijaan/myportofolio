@@ -8,6 +8,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from main.forms import ProjectForm, ExperienceForm
 from main.models import Experience, Project, Skill
+from django.views.decorators.http import require_POST
 import datetime
 
 def show_main(request):
@@ -109,6 +110,7 @@ def show_projects(request):
     context = {
         "name": "Burhan",
         "title_query": title_query,
+        "form": ProjectForm(),
     }
     return render(request, "project.html", context)
 
@@ -257,4 +259,23 @@ def toggle_experience_star(request, experience_id):
             experience.starred_by.add(request.user)
 
     return redirect("main:show_experiences")
+
+
+@require_POST
+def create_project_ajax(request):
+    if not request.user.is_superuser:
+        return JsonResponse(
+            {"message": "Only the portfolio owner can add projects."},
+            status=403,
+        )
+
+    form = ProjectForm(request.POST)
+    if form.is_valid():
+        project = form.save()
+        return JsonResponse(
+            {"message": "Project added successfully.", "pk": str(project.id)},
+            status=201,
+        )
+
+    return JsonResponse({"errors": form.errors.get_json_data()}, status=400)
 

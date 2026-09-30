@@ -30,4 +30,6 @@ urlpatterns = [
         toggle_experience_star,
         name="toggle_experience_star",
     ),
+    path("projects/add-ajax/", create_project_ajax, name="create_project_ajax"),
+    
 ]

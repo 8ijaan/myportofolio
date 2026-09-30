@@ -10,10 +10,10 @@
             <div class="project-header">
                 <h1>Projects</h1>
                 {% if perms.main.add_project %}
-                <a href="{% url 'main:create_project' %}" class="button project-add-button">
+                <button type="button" class="button project-add-button" popovertarget="add-project-modal">
                     <span aria-hidden="true">+</span>
-                    Tambah Proyek
-                </a>
+                    Add Project
+                </button>
                 {% endif %}
             </div>
             <button class="button button-secondary"
@@ -48,6 +48,10 @@
     </section>
 </main>
 
+{% if user.is_superuser %}
+{% include "components/project_form_modal.html" %}
+{% endif %}
+
 
 <script>
     // Configuration
@@ -74,6 +78,16 @@
         gridContainer.classList.toggle('hide', !showGrid);
     }
 
+        // Convert special HTML characters into entities so they display as text
+    function escapeHtml(value) {
+        return String(value ?? '')
+            .replaceAll('&', '&amp;')
+            .replaceAll('<', '&lt;')
+            .replaceAll('>', '&gt;')
+            .replaceAll('"', '&quot;')
+            .replaceAll("'", '&#39;');
+    }
+
     // Build a project card element
     function buildProjectCardElement(item) {
         const project = item.fields;
@@ -83,11 +97,11 @@
         articleElement.className = 'experience-card';
 
         const imageHtml = project.project_image_url
-            ? `<img src="${project.project_image_url}" alt="Image of ${project.title}" class="project-image">`
+            ? `<img src="${escapeHtml(project.project_image_url)}" alt="Image of ${project.title}" class="project-image">`
             : '';
 
         const urlHtml = project.project_url
-            ? `<a href="${project.project_url}" class="button">View Project</a>`
+            ? `<a href="${escapeHtml(project.project_url)}" class="button">View Project</a>`
             : '';
 
         // A dummy UUID used as a placeholder to be replaced with the real ID from the JSON data
@@ -106,15 +120,15 @@
         const isStarredClass = project.is_starred ? " is-starred" : "";
         const starText = project.is_starred ? "Unstar" : "Star";
         const starTitle = project.star_count > 0
-            ? `Starred by ${project.starred_by_names}`
+            ? `Starred by ${escapeHtml(project.starred_by_names)}`
             : "Be the first to star";
 
         // Card component
         const completeCardHtml = `
             ${imageHtml}
-            <h2>${project.title}</h2>
-            <span class="experience-category">${project.tech_stack}</span>
-            <p class="experience-description">${project.description}</p>
+            <h2>${escapeHtml(project.title)}</h2>
+            <span class="experience-category">${escapeHtml(project.tech_stack)}</span>
+            <p class="experience-description">${escapeHtml(project.description)}</p>
             <div class="project-card-actions">
                 <div class="project-actions">
                     ${urlHtml}
@@ -193,6 +207,67 @@
         clearTimeout(searchDebounceTimer);
         searchProjects();
     });
+
+    function closeProjectModal() {
+        document.getElementById("add-project-modal").hidePopover();
+    }
+
+        const CREATE_PROJECT_ENDPOINT = "{% url 'main:create_project_ajax' %}";
+    const projectForm = document.getElementById('project-form');
+
+    // Read a cookie value, used to get the CSRF token
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Send the form data to the server
+    async function addProject(event) {
+        event.preventDefault();
+
+        const submitButton = projectForm.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+
+        try {
+            const response = await fetch(CREATE_PROJECT_ENDPOINT, {
+                method: 'POST',
+                headers: { 'X-CSRFToken': getCookie('csrftoken') },
+                body: new FormData(projectForm),
+            });
+            const result = await response.json().catch(() => ({}));
+
+            if (response.ok) {
+                projectForm.reset();
+                closeProjectModal();
+                showToast('Success', 'New project added successfully!', 'success');
+                fetchProjects(searchInput.value.trim());
+            } else {
+                const errorMessages = result.errors
+                    ? Object.values(result.errors).flat().map(error => error.message)
+                    : [result.message || `Something went wrong (status ${response.status}).`];
+                showToast('Failed to add project', errorMessages.join(' '), 'error');
+            }
+        } catch (error) {
+            console.error('Error adding project:', error);
+            showToast('Failed to add project', 'Could not reach the server. Please try again.', 'error');
+        } finally {
+            submitButton.disabled = false;
+        }
+    }
+
+    if (projectForm) {
+        projectForm.addEventListener('submit', addProject);
+    }
 
     // Start the application
     fetchProjects(searchInput.value.trim());
