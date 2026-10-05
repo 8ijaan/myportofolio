@@ -49,7 +49,7 @@
   </section>
 </main>
 {% if perms.main.add_experience %}
-  {% include "components/experience_form_modal.html" %}
+{% include "components/experience_form_modal.html" %}
 {% endif %}
 
 <script>
@@ -77,20 +77,36 @@
     gridContainer.classList.toggle('hide', !showGrid);
   }
 
+  // Convert special HTML characters into entities so they display as text
+  function escapeHtml(value) {
+    return String(value ?? '')
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
+  }
   // Build a experience card element
   function buildexperienceCardElement(item) {
     const experience = item.fields;
-    const experienceId = item.pk;
+    const experienceId = escapeHtml(item.pk);
+    const title = escapeHtml(experience.title);
+    const description = escapeHtml(experience.description);
+    const category = escapeHtml(experience.category);
+    const imageUrl = escapeHtml(experience.experience_image_url);
+    const experienceUrl = escapeHtml(experience.experience_url);
+    const starredByNames = escapeHtml(experience.starred_by_names);
+    const starCount = escapeHtml(experience.star_count);
 
     const articleElement = document.createElement('article');
     articleElement.className = 'experience-card';
 
-    const imageHtml = experience.experience_image_url
-      ? `<img src="${experience.experience_image_url}" alt="Image of ${experience.title}" class="project-image">`
+    const imageHtml = imageUrl
+      ? `<img src="${imageUrl}" alt="Image of ${title}" class="project-image">`
       : '';
 
-    const urlHtml = experience.experience_url
-      ? `<a href="${experience.experience_url}" class="button">View experience</a>`
+    const urlHtml = experienceUrl
+      ? `<a href="${experienceUrl}" class="button">View experience</a>`
       : '';
 
     // A dummy UUID used as a placeholder to be replaced with the real ID from the JSON data
@@ -115,15 +131,15 @@
     const isStarredClass = experience.is_starred ? " is-starred" : "";
     const starText = experience.is_starred ? "Unstar" : "Star";
     const starTitle = experience.star_count > 0
-      ? `Starred by ${experience.starred_by_names}`
-      : "Be the first to star";
+      ? `Starred by ${starredByNames}`
+      : escapeHtml("Be the first to star");
 
     // Card component
     const completeCardHtml = `
             ${imageHtml}
-            <h2>${experience.title}</h2>
-            <span class="project-category">${experience.category}</span>
-            <p class="project-description">${experience.description}</p>
+            <h2>${title}</h2>
+            <span class="project-category">${category}</span>
+            <p class="project-description">${description}</p>
             <div class="project-card-actions">
                 <div class="project-actions">
                     ${urlHtml}
@@ -134,8 +150,8 @@
                                 class="button button-star${isStarredClass}"
                                 title="${starTitle}">
                             <span aria-hidden="true">★</span>
-                            ${starText}
-                            <span class="star-count">${experience.star_count}</span>
+                            ${escapeHtml(starText)}
+                            <span class="star-count">${starCount}</span>
                         </button>
                     </form>
 
