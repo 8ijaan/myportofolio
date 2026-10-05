@@ -106,7 +106,7 @@ def get_experiences_json(request):
                 "title": experience.title,
                 "description": experience.description,
                 "category": experience.category,
-                "project_image_url": experience.project_image_url,
+                "experience_image_url": experience.experience_image_url,
                 "star_count": starred_users.count(),
                 "is_starred": is_starred,
                 "starred_by_names": starred_by_names,
