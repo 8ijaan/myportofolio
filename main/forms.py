@@ -52,7 +52,7 @@ class ProjectForm(ModelForm):
             ),
             "project_image_url": URLInput(
                 attrs={
-                    "placeholder": "https://drive.google.com/thumbnail?id=...&sz=w1000",
+                    "placeholder": "https://drive.google.com/image_url?id=...&sz=w1000",
                 }
             ),
         }
@@ -76,7 +76,7 @@ class ExperienceForm(ModelForm):
             "title",
             "description",
             "category",
-            "thumbnail",
+            "experience_image_url",
             "ended_at",
         ]
 
@@ -84,7 +84,7 @@ class ExperienceForm(ModelForm):
             "title": "Nama Pengalaman",
             "description": "Deskripsi Pengalaman",
             "category": "Kategori",
-            "thumbnail": "Thumbnail",
+            "experience_image_url": "URL Image pengalaman",
             "ended_at": "Diakhiri Pada",
         }
 
@@ -106,9 +106,9 @@ class ExperienceForm(ModelForm):
                     "placeholder": "part-time",
                 }
             ),
-            "thumbnail": URLInput(
+            "experience_image_url": URLInput(
                 attrs={
-                    "placeholder": "https://example.com/thumbnail.jpg",
+                    "placeholder": "https://example.com/image_url.jpg",
                 }
             ),
             "ended_at": TextInput(

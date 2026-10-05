@@ -25,7 +25,7 @@ class Experience(models.Model):
     starred_by = models.ManyToManyField(
         User, related_name="starred_experiences", blank=True
     )
-    thumbnail = models.URLField(blank=True, null=True)
+    experience_image_url = models.URLField(blank=True, null=True)
     started_at = models.DateTimeField(auto_now_add=True)
     ended_at = models.DateTimeField(blank=True, null=True)
 
@@ -35,10 +35,6 @@ class Experience(models.Model):
     @property
     def is_ongoing(self):
         return self.ended_at is None
-
-    # TODO REFACTOR
-    def logo_url(self):
-        return f"/static/img/experience/{self.title.lower().replace(' ', '_')}.svg"
 
 class Skill(models.Model): 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

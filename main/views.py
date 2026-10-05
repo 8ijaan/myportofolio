@@ -26,20 +26,13 @@ def show_main(request):
     return render(request, "index.html", context)
 
 def show_experiences(request):
-    json_response = get_experiences_json(request)
-
-    experiences = serializers.deserialize(
-            "json",
-            json_response.content.decode("utf-8"),
-    )
-    experience = [experience.object for experience in experiences]
     title_query = request.GET.get("title", "").strip()
 
     context = {
         "name": "Ihsan",
-        "experience_list": experience,
         "title_query": title_query,
     }
+    
     return render(request, "experience.html", context)
 
 @login_required(login_url='/login/')
@@ -101,8 +94,28 @@ def get_experiences_json(request):
     if title_query:
         experiences = experiences.filter(title__icontains=title_query)
 
-    experiences_json = serializers.serialize("json", experiences)
-    return HttpResponse(experiences_json, content_type="application/json")
+    data = []
+    for experience in experiences:
+        starred_users = experience.starred_by.all()
+        is_starred = request.user in starred_users if request.user.is_authenticated else False
+        starred_by_names = ", ".join([u.username for u in starred_users])
+
+        data.append({
+            "pk": str(experience.id),
+            "fields": {
+                "title": experience.title,
+                "description": experience.description,
+                "category": experience.category,
+                "project_image_url": experience.project_image_url,
+                "star_count": starred_users.count(),
+                "is_starred": is_starred,
+                "starred_by_names": starred_by_names,
+                "started_at": experience.started_at,
+                "ended_at": experience.ended_at,
+            }
+        })
+
+    return JsonResponse(data, safe=False)
 
 def show_projects(request):
     title_query = request.GET.get("title", "").strip()
