@@ -133,6 +133,23 @@ JSON lebih disukai dalam pengembangan aplikasi web modern dibandingkan XML karen
 
 Alur yang terjadi ketika kita menggunakan fungsi view untuk mengembalikan data portofolio dalam format JSON dimulai saat klien mengirimkan request ke URL tertentu, kemudian view fungsi akan mengambil data dari model database, mengubahnya melalui proses serialization menjadi format teks yang kompatibel (seperti JSON), lalu mengembalikannya sebagai HttpResponse. Kita perlu melakukan proses serialisasi terlebih dahulu pada model Django karena objek model Django merupakan objek kompleks berbasis Python yang tidak bisa langsung dibaca atau dikirim melalui protokol HTTP dalam bentuk teks mentah. Pilihan ini saja sudah memberikan banyak manfaat untuk memastikan data dari database dapat diterjemahkan dengan sempurna ke format standar yang dapat dipahami oleh berbagai platform atau frontend.
 
+### TUGAS 4: REFLEKSI
+TIDAK ADA
+
+### TUGAS 5: REFLEKSI
+1. Explain what debouncing is and why this technique is important to implement in a search feature that uses AJAX.
+
+Debouncing adalah teknik untuk menunda eksekusi suatu fungsi sampai jeda waktu tertentu berlalu sejak terakhir kali fungsi tersebut dipicu. Kenapa diperlukan? hal ini dilakukan agar kita tidak mengirim request setiap kali mengetik huruf.
+
+2. Explain the purpose of using await when we use fetch(). What would happen if we did not use await?
+
+Penggunaan await saat memanggil fetch() bertujuan untuk menghentikan sementara eksekusi kode di dalam fungsi asinkron sampai proses pengambilan data dari jaringan benar-benar selesai dan objek Response diterima. Karena komunikasi jaringan memerlukan waktu, fetch() tidak langsung memberikan data, melainkan mengembalikan sebuah Promise.
+
+3. Explain what a Cross-Site Scripting (XSS) attack is and why data displayed through AJAX/JavaScript is more vulnerable to this attack than data displayed directly through a Django template.
+
+Jika kita tidak menggunakan await, kode di bawahnya akan langsung dieksekusi tanpa menunggu datanya datang. Akibatnya, alih-alih mendapatkan isi data yang kita harapkan, variabel penampung justru akan berisi objek Promise yang masih tertunda (pending), sehingga aplikasi akan gagal membaca data dan menimbulkan error.
+
+
 ### AI DISCLOSURE
 Tools AI yang digunakan: Gemini, Claude.
 
@@ -143,7 +160,9 @@ Bagaimana saya menggunakan AI:
 - Menanyakan commit messages yang appropriate terhadap apa yang saya ubah/tambahkan pada code.
 - Mencari akar permasalahan apabila terjadi error.
 - Mempelajari flow dari Form & Data Delivery dalam Django
+- Mendebug Server Error 500 😭😭
+- Bertanya mengenai javascript
 
 Saya menyadari bahwa AI (dalam kasus ini Gemini) memiliki konteks yang terbatas dan tidak memiliki pemahaman secara menyeluruh terhadap codebase saya. Sehingga seringkali saya crosscheck terhadap perbedaan code saya dengan code yang diberikan Gemini, e.g. perbedaan nama class atau nama field, dll
 
-Catatan Tambahan: Saya tidak menggunakan AI untuk mengubah codebase secara langsung. Semua perubahan pada codebase dilakukan secara manual oleh saya sendiri.
+Catatan Tambahan: ~~Saya tidak menggunakan AI untuk mengubah codebase secara langsung. Semua perubahan pada codebase dilakukan secara manual oleh saya sendiri.~~ 😭
