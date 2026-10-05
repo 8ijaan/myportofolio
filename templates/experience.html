@@ -16,11 +16,6 @@
         </button>
         {% endif %}
       </div>
-
-      <button class="button button-secondary"
-        onclick="showToast('System Notification', 'Experience loaded successfully!', 'success')">
-        Test Toast Notification
-      </button>
       <form method="get" action="{% url 'main:show_experiences' %}" class="project-search" id="experience-search-form">
         <input type="search" name="title" value="{{ title_query }}" placeholder="Cari berdasarkan nama pengalaman"
           class="project-search__input" id="search-input" aria-label="Cari berdasarkan nama pengalaman">
