@@ -64,6 +64,8 @@
   const gridContainer = document.getElementById('grid');
   const searchForm = document.getElementById('experience-search-form');
   const searchInput = document.getElementById('search-input');
+  const SEARCH_DEBOUNCE_DELAY = 300;
+  let searchDebounceTimer;
 
   // Show/hide page sections
   function displayPageSection({ showLoading = false, showError = false, showEmpty = false, showGrid = false }) {
@@ -146,7 +148,7 @@
   }
 
   // Fetch experience data
-  async function fetchexperiences(searchQuery = "") {
+  async function fetchExperiences(searchQuery = "") {
     if (experiencesAbortController) experiencesAbortController.abort();
     experiencesAbortController = new AbortController();
 
@@ -181,12 +183,25 @@
   }
 
   // Search form event handler
-  searchForm.addEventListener('submit', function (e) {
-    e.preventDefault(); // Prevent the page from reloading
-    fetchexperiences(searchInput.value.trim()); // Run the search via AJAX
+  function searchExperiences() {
+    fetchExperiences(searchInput.value.trim());
+  }
+
+  searchInput.addEventListener("input", function () {
+    clearTimeout(searchDebounceTimer);
+
+    searchDebounceTimer = setTimeout(function () {
+      searchExperiences();
+    }, SEARCH_DEBOUNCE_DELAY);
+  });
+
+  searchForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    clearTimeout(searchDebounceTimer);
+    searchExperiences();
   });
 
   // Start the application
-  fetchexperiences(searchInput.value.trim());
+  fetchExperiences(searchInput.value.trim());
 </script>
 {% endblock content %}
