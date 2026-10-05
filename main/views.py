@@ -3,11 +3,10 @@ from django.contrib.auth.decorators import login_required  # Add this line
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.core.exceptions import PermissionDenied        # Add this line
-from django.core import serializers
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from main.forms import ProjectForm, ExperienceForm
-from main.models import Experience, Project, Skill
+from main.models import Experience, Project
 from django.views.decorators.http import require_POST
 import datetime
 
@@ -31,6 +30,7 @@ def show_experiences(request):
     context = {
         "name": "Ihsan",
         "title_query": title_query,
+        "form": ExperienceForm(),
     }
     
     return render(request, "experience.html", context)

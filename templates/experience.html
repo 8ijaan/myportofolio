@@ -10,10 +10,10 @@
       <div class="project-header">
         <h1>Experience</h1>
         {% if perms.main.add_experience %}
-        <a href="{% url 'main:create_experience' %}" class="button experience-add-button">
+        <button type="button" class="button project-add-button" popovertarget="add-experience-modal">
           <span aria-hidden="true">+</span>
-          Tambah Pengalaman
-        </a>
+          Add Experience
+        </button>
         {% endif %}
       </div>
 
@@ -48,7 +48,9 @@
     </div>
   </section>
 </main>
-
+{% if perms.main.add_experience %}
+  {% include "components/experience_form_modal.html" %}
+{% endif %}
 
 <script>
   // Configuration
@@ -202,6 +204,9 @@
   });
 
   // Start the application
+  function closeExperienceModal() {
+    document.getElementById("add-experience-modal").hidePopover();
+}
   fetchExperiences(searchInput.value.trim());
 </script>
 {% endblock content %}
