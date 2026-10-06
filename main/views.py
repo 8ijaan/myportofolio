@@ -6,7 +6,7 @@ from django.core.exceptions import PermissionDenied        # Add this line
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from main.forms import ProjectForm, ExperienceForm
-from main.models import Experience, Project
+from main.models import Experience, Project, Skill
 from django.views.decorators.http import require_POST
 import datetime
 
@@ -21,6 +21,7 @@ def show_main(request):
             "pada pengembangan perangkat lunak dan pendidikan."
         ),
         "last_login": last_login,
+        "skill_list": Skill.objects.all(),
     }
     return render(request, "index.html", context)
 
