@@ -22,6 +22,8 @@ from main.views import get_experiences_json, get_projects_json
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("main.urls")),
+    path("api/v1/", include("main.api_urls")),
+    path("api-auth/", include("rest_framework.urls")),
     path("api/projects/", get_projects_json, name="get_projects_json"),
     path("api/experience/", get_experiences_json, name="get_experience_json"),
 ]
