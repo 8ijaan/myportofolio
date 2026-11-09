@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from main.forms import ProjectForm, ExperienceForm
 from main.models import Experience, Project, Skill
+from django.views.decorators.csrf import ensure_csrf_cookie
 from django.views.decorators.http import require_POST
 import datetime
 
@@ -25,13 +26,20 @@ def show_main(request):
     }
     return render(request, "index.html", context)
 
+@ensure_csrf_cookie
 def show_experiences(request):
     title_query = request.GET.get("title", "").strip()
+    user = request.user
+    can_edit = user.is_authenticated and (
+        user.is_superuser or user.groups.filter(name="Editor").exists()
+    )
 
     context = {
         "name": "Ihsan",
         "title_query": title_query,
         "form": ExperienceForm(),
+        "can_edit": can_edit,
+        "category_choices": Experience.EXPERIENCE_CHOICES,
     }
     
     return render(request, "experience.html", context)

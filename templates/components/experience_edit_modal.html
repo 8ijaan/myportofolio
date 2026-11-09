@@ -1,0 +1,56 @@
+<div id="edit-experience-modal"
+     class="project-form-modal"
+     popover="auto"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="edit-experience-modal-title">
+    <button type="button"
+            class="project-form-modal__backdrop"
+            popovertarget="edit-experience-modal"
+            popovertargetaction="hide"
+            aria-label="Close edit experience form"></button>
+
+    <div class="project-form-modal__content">
+        <button type="button"
+                class="project-form-modal__close"
+                popovertarget="edit-experience-modal"
+                popovertargetaction="hide"
+                aria-label="Close edit experience form">×</button>
+
+        <h2 id="edit-experience-modal-title">Edit Experience</h2>
+        <form id="edit-experience-form" class="project-form">
+            <input type="hidden" name="id">
+            <div class="form-group">
+                <label for="edit-title">Nama Pengalaman</label>
+                <input type="text" id="edit-title" name="title" maxlength="255" required>
+            </div>
+            <div class="form-group">
+                <label for="edit-description">Deskripsi Pengalaman</label>
+                <textarea id="edit-description" name="description" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="edit-category">Kategori</label>
+                <select id="edit-category" name="category">
+                    {% for value, label in category_choices %}
+                    <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="edit-image-url">URL Image pengalaman</label>
+                <input type="url" id="edit-image-url" name="experience_image_url">
+            </div>
+            <div class="form-group">
+                <label for="edit-ended-at">Diakhiri Pada</label>
+                <input type="datetime-local" id="edit-ended-at" name="ended_at">
+            </div>
+            <div class="project-form-modal__actions">
+                <button type="button"
+                        class="button button-secondary"
+                        popovertarget="edit-experience-modal"
+                        popovertargetaction="hide">Cancel</button>
+                <button type="submit" class="button">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
