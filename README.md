@@ -149,6 +149,24 @@ Penggunaan await saat memanggil fetch() bertujuan untuk menghentikan sementara e
 
 Jika kita tidak menggunakan await, kode di bawahnya akan langsung dieksekusi tanpa menunggu datanya datang. Akibatnya, alih-alih mendapatkan isi data yang kita harapkan, variabel penampung justru akan berisi objek Promise yang masih tertunda (pending), sehingga aplikasi akan gagal membaca data dan menimbulkan error.
 
+### TUGAS 6: REFLEKSI
+1. Explain what REST means and why returning JSON alone isn’t enough to call an API RESTful. Also explain the difference between PUT and PATCH, with an example of when each should be used.
+
+REST adalah arsitektur web yang mengandalkan protokol HTTP secara konsisten dan stateless. Mengembalikan JSON saja tidak cukup untuk membuat API menjadi RESTful karena REST juga menuntut kepatuhan terhadap aturan arsitektur seperti status code dan manipulasi resource, bukan sekadar format data. Perbedaannya, PUT mengganti seluruh isi resource secara utuh, sedangkan PATCH hanya memperbarui bagian data tertentu saja (partial update).
+
+2. Explain the role of a serializer in Django REST Framework. What are its advantages over manually assembling a dictionary with JsonResponse as in Tutorial 05?
+
+Serializer bertugas mengubah data dari database menjadi format yang mudah diubah ke JSON, begitu juga sebaliknya saat menerima data dari pengguna. Cara ini jauh lebih praktis dibanding membuat dictionary secara manual seperti di Tutorial 05 karena sudah dilengkapi validasi otomatis dan kodenya jadi jauh lebih ringkas.
+
+
+3. Explain the difference between authentication and authorization in Django REST Framework. Why must access rights be checked with a permission class on the server, rather than only by hiding a button in the template?
+
+Authentication adalah proses mengenali identitas pengguna, sedangkan authorization menentukan hak akses atau tindakan yang diizinkan bagi pengguna tersebut. Hak akses wajib divalidasi dengan permission class di sisi server karena front-end tidak aman dan dapat dimanipulasi dengan mudah oleh pengguna untuk membypass tampilan antarmuka.
+
+4. Explain why requests that change data still need a CSRF token when an API uses SessionAuthentication. Why isn’t a test using force_authenticate enough to prove that CSRF protection works?
+
+Request yang memodifikasi data tetap memerlukan token CSRF saat menggunakan SessionAuthentication karena autentikasi berbasis sesi rentan terhadap serangan CSRF. Pengujian menggunakan force_authenticate saja tidak cukup untuk membuktikan perlindungan CSRF berjalan karena cara tersebut mem-bypass pemeriksaan lapisan keamanan yang asli di lingkungan testing.
+
 
 ### AI DISCLOSURE
 Tools AI yang digunakan: Gemini, Claude.
@@ -162,6 +180,9 @@ Bagaimana saya menggunakan AI:
 - Mempelajari flow dari Form & Data Delivery dalam Django
 - Mendebug Server Error 500 😭😭
 - Bertanya mengenai javascript
+- Jelaskan instruksi yang ada di dalam assignment ini
+- Buatkan TODOs untuk memenuhi syarat assignment ini`
+- Cek apakah perubahan kode yang saya lakukan sudah benar
 
 Saya menyadari bahwa AI (dalam kasus ini Gemini) memiliki konteks yang terbatas dan tidak memiliki pemahaman secara menyeluruh terhadap codebase saya. Sehingga seringkali saya crosscheck terhadap perbedaan code saya dengan code yang diberikan Gemini, e.g. perbedaan nama class atau nama field, dll
 
