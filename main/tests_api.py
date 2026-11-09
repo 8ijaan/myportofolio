@@ -173,3 +173,21 @@ class ProjectAPITest(APITestCase):
             self.list_url, self.payload, format="json", HTTP_X_CSRFTOKEN=token,
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+class ProjectPageEditTest(APITestCase):
+    def setUp(self):
+        self.owner = User.objects.create_superuser(username="owner2", password="pw")
+        self.regular = User.objects.create_user(username="regular2", password="pw")
+        self.editor = User.objects.create_user(username="editor2", password="pw")
+        self.editor.groups.add(Group.objects.get_or_create(name="Editor")[0])
+        self.url = reverse("main:show_projects")
+
+    def test_edit_modal_only_for_editor_and_owner(self):
+        for user, expected in ((self.owner, True), (self.editor, True), (self.regular, False), (None, False)):
+            self.client.logout()
+            if user:
+                self.client.force_login(user)
+            response = self.client.get(self.url)
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.context["can_edit"], expected)
+            self.assertEqual(b'id="edit-project-modal"' in response.content, expected)

@@ -126,13 +126,20 @@ def get_experiences_json(request):
 
     return JsonResponse(data, safe=False)
 
+@ensure_csrf_cookie
 def show_projects(request):
     title_query = request.GET.get("title", "").strip()
+
+    user = request.user
+    can_edit = user.is_authenticated and (
+        user.is_superuser or user.groups.filter(name="Editor").exists()
+    )
 
     context = {
         "name": "Burhan",
         "title_query": title_query,
         "form": ProjectForm(),
+        "can_edit": can_edit,
     }
     return render(request, "project.html", context)
 
