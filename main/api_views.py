@@ -11,6 +11,12 @@ from main.models import Project, Experience
 from main.permissions import IsPortfolioOwnerOrEditorOrReadOnly
 from main.serializers import ProjectSerializer, ExperienceSerializer
 
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def api_logout(request):
+    if request.auth is not None:
+        request.auth.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(["GET", "HEAD", "POST"])
 @authentication_classes([SessionAuthentication])
